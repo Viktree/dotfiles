@@ -1,16 +1,58 @@
-## where to install homebrew-cask applications
+# ---------------------------------------------------------------------------------------
+# ---{ Brewfile } -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+#
+#   This file lists some of the programs that I use on mac OSX
+#
+#   `brew bundle cleanup`               Will tell you how out of sync this file is
+#   `brew bundle cleanup --force`       Remove stuff that are not in this file
+#   `brew bundle`                       Install everything listed in this file
+#
+# ---{ Taps } ---------------------------------------------------------------------------
+#
+#   These are the packages reposititories that homebrew should look at
+#
+
 cask_args appdir: '/Applications'
+cask_args fontdir: '/Library/Fonts'
 
-# set-up brew with taps
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/core'
 
+brew 'direnv'
+brew 'gnu-getopt'
 brew 'tree'
+brew 'helm@2'
 brew 'neovim'
+brew 'node@12'
+brew 'nvm'
+brew 'sops'
+brew 'syncthing'
+
+cask 'font-hack'
+cask 'font-jetbrains-mono'
+
+# ---{ Casks } --------------------------------------------------------------------------
+#
+#   `brew cask` is an extension to `brew` that allows for the management of graphical
+#   applications through the cask project
+#
 
 cask 'alfred'
+cask 'beardedspice'
+cask 'caffeine'
+cask 'charles'
+cask 'cyberduck'
+cask 'docker'
+cask 'figma'
 cask 'firefox'
-cask 'kitty'
-cask 'visual-studio-code'
 cask 'flycut'
+cask 'insomnia'
+cask 'kitty'
+cask 'spotify'
+cask 'ubersicht'
+cask 'visual-studio-code'
+
+# ---------------------------------------------------------------------------------------
