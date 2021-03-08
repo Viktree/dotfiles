@@ -1,0 +1,16 @@
+## where to install homebrew-cask applications
+cask_args appdir: '/Applications'
+
+# set-up brew with taps
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+
+brew 'tree'
+brew 'neovim'
+
+cask 'alfred'
+cask 'firefox'
+cask 'kitty'
+cask 'visual-studio-code'
+cask 'flycut'
