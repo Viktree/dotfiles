@@ -8,7 +8,7 @@
         "revision": "ae24dcefc18823ea141636e9755978b0a4fce160"
       },
       "homebrew/core": {
-        "revision": "443ddf805144323198a5b37b071516534243377b"
+        "revision": "7ec2d116a180efd718f0db47e087cf0fe5aa2302"
       },
       "homebrew/cask-fonts": {
         "revision": "9899ab349852a15fbc634721356bec10e05d5f11"
@@ -154,6 +154,33 @@
         "version": "1.6.69",
         "options": {
           "full_name": "ubersicht",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "kite": {
+        "version": "0.20210212.0",
+        "options": {
+          "full_name": "kite",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "sublime-merge": {
+        "version": "2047",
+        "options": {
+          "full_name": "sublime-merge",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "sublime-text": {
+        "version": "3.211",
+        "options": {
+          "full_name": "sublime-text",
           "args": {
             "fontdir": "/Library/Fonts"
           }
@@ -431,7 +458,7 @@
       "big_sur": {
         "HOMEBREW_VERSION": "3.0.4",
         "HOMEBREW_PREFIX": "/usr/local",
-        "Homebrew/homebrew-core": "443ddf805144323198a5b37b071516534243377b",
+        "Homebrew/homebrew-core": "7ec2d116a180efd718f0db47e087cf0fe5aa2302",
         "CLT": "12.4.0.0.1.1610135815",
         "Xcode": "12.0",
         "macOS": "11.2.2"
