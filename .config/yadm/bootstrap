@@ -21,9 +21,13 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 export GITCONFIG_DIR="$XDG_CONFIG_HOME/git"
 
+cd "$HOME"
+echo "Init submodules"
+yadm submodule update --recursive --init
 
 if is_mac
 then
+    echo "Init apple specific"
     # Disable the sound effects on boot
     sudo nvram SystemAudioVolume=" "
 
@@ -73,7 +77,7 @@ then
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
-    export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/brew/config"
+    export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/Brewfile"
     export HOMEBREW_CASK_OPTS="--appdir=/Applications --fontdir=/Library/Fonts"
     export HOMEBREW_NO_ANALYTICS=1
 
@@ -92,8 +96,9 @@ then
     fi
 fi
 
+echo "Init neovim when present"
 if check_for_command nvim
-then nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+then nvim '+PackerSync' '+qall'
 fi
 
 
@@ -148,10 +153,3 @@ if is_mac
 then git config --global credential.helper osxkeychain
 else git config --global credential.helper cache
 fi
-
-if [ -f "$HOME/.gitconfig" ]
-then
-	mkdir -p "$GITCONFIG_DIR"
-	mv "$HOME/.gitconfig" "$GITCONFIG_DIR/config"
-fi
-
