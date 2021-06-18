@@ -13,14 +13,29 @@
 
 # ---{ zplug }---------------------------------------------------------------------------
 #
-function source_if_file(){ [[ -f $1 ]] && source $1 }
+function source_if_file(){ [[ -f "$1" ]] && source "$1" }
+function source_if_exists(){ [[ -e $1 ]] && source $1 }
 function check_for_command(){ command -v $1 >/dev/null 2>&1 }
 
-# export ZPLUG_HOME="/usr/local/opt/zplug"
-source_if_file "$ZPLUG_HOME/init.zsh"
+export ZPLUG_HOME="$HOME/.zplug"
+source_if_file   "$ZPLUG_HOME/init.zsh"
+source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh"
+
+if [[ ! -d "$ZPLUG_HOME" ]]
+then
+  if check_for_command git 
+  then
+    git clone https://github.com/b4b4r07/zplug $HOME/.zplug
+  else
+    echo "Failed to fetch zplug, no git installed"
+  fi
+fi
 
 if check_for_command zplug
 then
+
+  source_if_file "$XDG_CONFIG_HOME/zsh/packages.zsh"
+
   # Install plugins if there are plugins that have not been installed
   if ! zplug check --verbose
   then
@@ -32,11 +47,18 @@ then
       fi
   fi
 
+  export NVM_LAZY_LOAD=true
+
   # Then, source plugins and add commands to $PATH
+  compinit -u
   zplug load
+
+  autoload -U promptinit
+  promptinit
+  prompt pure
+
 fi
 
-export PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
 
 # ---{ Souce completions }---------------------------------------------------------------
 
@@ -72,6 +94,7 @@ function grep-path(){
 }
 
 # ---{ Other Functions }-----------------------------------------------------------------
+
 
 function mkcd () {
     mkdir -p $1
@@ -151,6 +174,33 @@ if check_for_command nodenv
 then eval "$(nodenv init -)"
 fi
 
+if check_for_command nvm
+then
+    export NVM_DIR="$HOME/.nvm"
+    export NODE_VERSIONS="${NVM_DIR}/versions/node"
+    export NODE_VERSION_PREFIX="v"
+    autoload -U add-zsh-hook
+    load-nvmrc() {
+      local node_version="$(nvm version)"
+      local nvmrc_path="$(nvm_find_nvmrc)"
+
+      if [ -n "$nvmrc_path" ]; then
+        local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+        if [ "$nvmrc_node_version" = "N/A" ]; then
+          nvm install
+        elif [ "$nvmrc_node_version" != "$node_version" ]; then
+          nvm use
+        fi
+      elif [ "$node_version" != "$(nvm version default)" ]; then
+        echo "Reverting to nvm default version"
+        nvm use default
+      fi
+    }
+    add-zsh-hook chpwd load-nvmrc
+    load-nvmrc
+fi
+
 if check_for_command pyenv
 then eval "$(pyenv init -)"
 fi
@@ -163,6 +213,10 @@ if check_for_command direnv
 then eval "$(direnv hook zsh)"
 fi
 
-# ---------------------------------------------------------------------------------------
+source "$HOME/.config/zsh/aliases.zsh"
 
-export PATH="/usr/local/opt/helm@2/bin:$PATH"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+
+
+# ---------------------------------------------------------------------------------------

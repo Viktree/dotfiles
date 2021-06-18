@@ -21,6 +21,12 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
+if check_for_command nvm
+then
+    export NVM_DIR="$HOME/.nvm" # You probably have this line already
+    export NODE_VERSIONS="${NVM_DIR}/versions/node"
+    export NODE_VERSION_PREFIX="v"
+fi
 
 if check_for_command gpg
 then export GPG_TTY=$(tty)
@@ -36,9 +42,13 @@ function PATH_append(){
     fi
 }
 
+export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/Brewfile"      
+HOMEBREW_PREFIX="/usr/local/opt"
 
 PATH_append "$HOME/programs/google-cloud-sdk/bin"
-
-PATH="/usr/local/opt/node@12/bin:$PATH"
+PATH_append "$HOMEBREW_PREFIX/helm@2/bin"
+PATH_append "$HOMEBREW_PREFIX/node@12/bin"
+PATH_append "$HOME/.emacs.d/bin"
+# PATH_append "$HOME/programs/nvim-osx64/bin"
 
 export PATH
